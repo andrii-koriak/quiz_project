@@ -1,0 +1,11 @@
+<h1>Вікторини</h1>
+
+<ul>
+    {% for q in quizzes %}
+        <li>
+            <a href="{% url 'quiz_detail' q.id %}">{{ q.назва }}</a>
+        </li>
+    {% empty %}
+        <p>Поки що немає вікторин.</p>
+    {% endfor %}
+</ul>

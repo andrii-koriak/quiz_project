@@ -1,0 +1,11 @@
+<h1>{{ quiz.назва }}</h1>
+
+{% for p in questions %}
+    <h3>{{ p.порядок }}. {{ p.текст }}</h3>
+
+    <ul>
+        {% for v in p.відповіді.all %}
+            <li>{{ v.текст }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
