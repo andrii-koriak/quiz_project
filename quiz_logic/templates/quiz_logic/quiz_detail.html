@@ -1,4 +1,6 @@
 <h1>{{ quiz.назва }}</h1>
 <p>{{ quiz.опис }}</p>
 
-<a href="{% url 'quiz_start' quiz.id %}">Почати вікторину</a>
+<a href="{% url 'quiz_start' quiz.id %}">
+    <button>Почати вікторину</button>
+</a>

@@ -1,30 +1,44 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+class Profile(models.Model):
+    ROLE_CHOICES = (
+        ('teacher', 'Вчитель'),
+        ('student', 'Учень'),
+    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created and not hasattr(instance, 'profile'):
+        Profile.objects.create(user=instance)
 
 
-class Викторина(models.Model):
-    назва = models.CharField(max_length=255)
-    опис = models.TextField(blank=True, null=True)
-    створив = models.ForeignKey(User, on_delete=models.CASCADE)
-    дата_створення = models.DateTimeField(auto_now_add=True)
+class Quiz(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    made = models.ForeignKey(User, on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.назва
+        return self.title
 
 
 class Питання(models.Model):
-    вікторина = models.ForeignKey(Викторина, related_name="питання", on_delete=models.CASCADE)
-    текст = models.TextField()
-    порядок = models.IntegerField(default=0)
+    quiz = models.ForeignKey(Quiz, related_name="питання", on_delete=models.CASCADE)
+    text = models.TextField()
+    order = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"Питання №{self.порядок}: {self.текст[:40]}"
+        return f"Питання №{self.order}: {self.text[:40]}"
 
 
-class Відповідь(models.Model):
-    питання = models.ForeignKey(Питання, related_name="відповіді", on_delete=models.CASCADE)
-    текст = models.CharField(max_length=255)
-    правильна = models.BooleanField(default=False)
+class Answer(models.Model):
+    question = models.ForeignKey(Питання, related_name="відповіді", on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+    rog = models.BooleanField(default=False)
 
     def __str__(self):
         return self.текст

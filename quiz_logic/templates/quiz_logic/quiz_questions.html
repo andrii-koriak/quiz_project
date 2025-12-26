@@ -1,0 +1,25 @@
+<h2>{{ quiz.назва }}</h2>
+
+<h3>{{ question.порядок }}. {{ question.текст }}</h3>
+
+{% if is_correct == None %}
+    <form method="post">
+        {% csrf_token %}
+        {% for answer in answers %}
+            <button type="submit" name="answer_id" value="{{ answer.id }}">
+                {{ answer.текст }}
+            </button>
+            <br><br>
+        {% endfor %}
+    </form>
+{% else %}
+    {% if is_correct %}
+        <p style="color: green;">✅ Правильно!</p>
+    {% else %}
+        <p style="color: red;">❌ Неправильно</p>
+    {% endif %}
+
+    <a href="{% url 'quiz_question' quiz.id next_question %}">
+        <button>Далі</button>
+    </a>
+{% endif %}

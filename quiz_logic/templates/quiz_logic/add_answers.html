@@ -1,0 +1,8 @@
+<h2>Відповіді до питання</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ answer_form.as_p }}
+    <button name="add_more">Додати ще відповідь</button>
+    <button type="submit">Завершити</button>
+</form>
+я

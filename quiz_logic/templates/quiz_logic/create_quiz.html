@@ -1,0 +1,6 @@
+<h2>Створення вікторини</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ quiz_form.as_p }}
+    <button type="submit">Створити</button>
+</form>

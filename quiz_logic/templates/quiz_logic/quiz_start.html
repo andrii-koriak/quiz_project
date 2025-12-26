@@ -1,11 +1,7 @@
 <h1>{{ quiz.назва }}</h1>
 
-{% for p in questions %}
-    <h3>{{ p.порядок }}. {{ p.текст }}</h3>
+<p>Ти будеш відповідати на питання одне за одним.</p>
 
-    <ul>
-        {% for v in p.відповіді.all %}
-            <li>{{ v.текст }}</li>
-        {% endfor %}
-    </ul>
-{% endfor %}
+<a href="{% url 'quiz_question' quiz.id 1 %}">
+    <button>Почати квест</button>
+</a>

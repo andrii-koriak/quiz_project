@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Головна</title>
+</head>
+<body>
+
+<h1>Ласкаво просимо у систему вікторин!</h1>
+
+{% if user.is_authenticated %}
+    <p>Привіт, {{ user.username }}!</p>
+
+    {% if user.profile and user.profile.avatar %}
+        <p>Ваш аватар:</p>
+        <img src="{% static 'avatars/'|add:user.profile.avatar %}" width="80" alt="Аватар">
+    {% else %}
+        <p>Аватар ще не обрано</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'choose_avatar' %}">Змінити аватар</a>
+
+    <hr>
+
+    {% if user.profile and user.profile.role == 'teacher' %}
+        <p>Ви увійшли як <b>вчитель</b></p>
+        <a href="{% url 'create_quiz' %}">➕ Створити вікторину</a>
+    {% else %}
+        <p>Ви увійшли як <b>учень</b></p>
+    {% endif %}
+
+    <hr>
+
+    <h3>Доступні вікторини:</h3>
+    <a href="{% url 'quiz_list' %}">Перейти до вікторин</a>
+
+    <br><br>
+    <!-- Кнопка виходу -->
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Вийти</button>
+    </form>
+
+{% else %}
+    <a href="{% url 'login' %}">Увійти</a><br>
+    <a href="{% url 'register' %}">Зареєструватися</a>
+{% endif %}
+
+</body>
+</html>

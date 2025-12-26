@@ -1,25 +1,34 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Викторина
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Profile
+from .forms import UserRegisterForm
 
+# -------------------------
+# РЕЄСТРАЦІЯ КОРИСТУВАЧА
+# -------------------------
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            # створюємо користувача
+            user = form.save(commit=False)
+            user.save()
 
-# 1. Список вікторин
-def quiz_list(request):
-    quizzes = Викторина.objects.all()
-    return render(request, 'quiz_logic/quiz_list.html', {'quizzes': quizzes})
+            # отримуємо роль з форми
+            role = form.cleaned_data['role']
 
+            # створюємо або оновлюємо профіль
+            profile, created = Profile.objects.get_or_create(user=user)
+            profile.role = role
+            profile.save()
 
-# 2. Детальна сторінка вікторини
-def quiz_detail(request, quiz_id):
-    quiz = get_object_or_404(Викторина, id=quiz_id)
-    return render(request, 'quiz_logic/quiz_detail.html', {'quiz': quiz})
+            return redirect('home')  # тут можеш змінити на login або іншу сторінку
+    else:
+        form = UserRegisterForm()
 
+    return render(request, 'register.html', {'form': form})
 
-# 3. Старт вікторини
-def quiz_start(request, quiz_id):
-    quiz = get_object_or_404(Викторина, id=quiz_id)
-    questions = quiz.питання.all()
-
-    return render(request, 'quiz_logic/quiz_start.html', {
-        'quiz': quiz,
-        'questions': questions
-    })
+# -------------------------
+# ГОЛОВНА
+# -------------------------
+def home(request):
+    return render(request, 'home.html')

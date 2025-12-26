@@ -16,9 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from quiz_logic import views as quiz_views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('quiz_logic.urls')),
+    path('quiz/', include('quiz_logic.urls')),# квести
+    path('', quiz_views.home, name='home'),# головна
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    path('register/', quiz_views.register, name='register'),
 ]
-#пріложуха path('', include('quiz_logic.urls')),
+#пріложуха path('quiz/', include('quiz_logic.urls')),
