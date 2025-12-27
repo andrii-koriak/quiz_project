@@ -1,35 +1,37 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Викторина, Питання, Відповідь
+from django.contrib.auth.models import User
+from .models import Quiz, Question, Answer, Profile
 
 class UserRegisterForm(UserCreationForm):
     ROLE_CHOICES = (
         ('teacher', 'Вчитель'),
         ('student', 'Учень'),
     )
+
+    email = forms.EmailField(required=True)
     role = forms.ChoiceField(choices=ROLE_CHOICES)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2', 'role']
+        fields = ('username', 'email', 'password1', 'password2', 'role')
 
 class QuizCreateForm(forms.ModelForm):
     class Meta:
-        model = Викторина
-        fields = ['назва', 'опис']
+        model = Quiz
+        fields = ('title', 'description')
 
 class QuestionCreateForm(forms.ModelForm):
     class Meta:
-        model = Питання
-        fields = ['текст', 'порядок']
+        model = Question
+        fields = ('text', 'order')
 
 class AnswerCreateForm(forms.ModelForm):
     class Meta:
-        model = Відповідь
-        fields = ['текст', 'правильна']
+        model = Answer
+        fields = ('text', 'correct')
 
 class AvatarSelectForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['avatar']
+        fields = ('avatar',)
