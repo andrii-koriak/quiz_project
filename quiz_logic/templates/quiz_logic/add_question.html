@@ -3,4 +3,7 @@
     {% csrf_token %}
     {{ question_form.as_p }}
     <button type="submit">Додати питання</button>
+    <a href="{% url 'home' %}" class="exit-btn">
+        Вийти на головну
+    </a>
 </form>
