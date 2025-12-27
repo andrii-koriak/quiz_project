@@ -76,8 +76,8 @@ def quiz_question(request, quiz_id, question_order):
     # отримуємо питання по порядку
     question = get_object_or_404(
         Question,
-        вікторина=quiz,
-        порядок=question_order
+        quiz=quiz,
+        order=question_order
     )
 
     answers = question.відповіді.all()
@@ -100,8 +100,8 @@ def quiz_question(request, quiz_id, question_order):
 
         # перевіряємо, чи є наступне питання
         next_exists = Question.objects.filter(
-            вікторина=quiz,
-            порядок=question_order + 1
+            quiz=quiz,
+            order=question_order + 1
         ).exists()
 
         # якщо наступного питання немає — фінал
@@ -139,7 +139,7 @@ def create_quiz(request):
         quiz_form = QuizCreateForm(request.POST)
         if quiz_form.is_valid():
             quiz = quiz_form.save(commit=False)
-            quiz.створив = request.user
+            quiz.author = request.user
             quiz.save()
             return redirect('add_question', quiz.id)
     else:
@@ -155,7 +155,7 @@ def create_quiz(request):
 def add_question(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
 
-    if request.user != quiz.створив:
+    if request.user != quiz.author:
         return redirect('home')
 
     if request.method == 'POST':

@@ -9,6 +9,16 @@ class Profile(models.Model):
         ('teacher', 'Вчитель'),
         ('student', 'Учень'),
     )
+    AVATAR_CHOICES_STUDENT = (
+        ('student1.png', 'Учень 1'),
+        ('student2.png', 'Учень 2'),
+        ('student3.png', 'Учень 3'),
+    )
+    AVATAR_CHOICES_TEACHER = (
+        ('teacher1.png', 'Вчитель 1'),
+        ('teacher2.png', 'Вчитель 2'),
+        ('teacher3.png', 'Вчитель 3'),
+    )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(
