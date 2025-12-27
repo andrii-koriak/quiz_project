@@ -1,9 +1,10 @@
+{% load static %}
 <h1>Вікторини</h1>
-
+<head> <link rel="stylesheet" href="{% static 'styles.css'%}"> </head>
 <ul>
     {% for q in quizzes %}
         <li>
-            <a href="{% url 'quiz_detail' q.id %}">{{ q.назва }}</a>
+            <a href="{% url 'quiz_detail' q.id %}">{{ q.title }}</a>
         </li>
     {% empty %}
         <p>Поки що немає вікторин.</p>

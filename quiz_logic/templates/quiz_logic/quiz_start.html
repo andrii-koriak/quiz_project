@@ -1,4 +1,7 @@
-<h1>{{ quiz.назва }}</h1>
+{% load static %}
+<h1>{{ quiz.title }}</h1>
+<head> <link rel="stylesheet" href="{% static 'styles.css'%}">
+</head>
 
 <p>Ти будеш відповідати на питання одне за одним.</p>
 

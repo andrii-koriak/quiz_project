@@ -1,4 +1,6 @@
+{% load static %}
 <h2>Створення вікторини</h2>
+<head> <link rel="stylesheet" href="{% static 'styles.css'%}"> </head>
 <form method="post">
     {% csrf_token %}
     {{ quiz_form.as_p }}

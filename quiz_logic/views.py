@@ -72,15 +72,14 @@ def quiz_start(request, quiz_id):
 # -------------------------
 def quiz_question(request, quiz_id, question_order):
     quiz = get_object_or_404(Quiz, id=quiz_id)
-
+    print(quiz)
     # отримуємо питання по порядку
     question = get_object_or_404(
         Question,
         quiz=quiz,
-        order=question_order
     )
 
-    answers = question.відповіді.all()
+    answers = question.answers.all()
 
     # None — ще не відповіли
     is_correct = None
@@ -93,7 +92,7 @@ def quiz_question(request, quiz_id, question_order):
         )
 
         # перевірка відповіді
-        if selected_answer.правильна:
+        if selected_answer.correct:
             is_correct = True
         else:
             is_correct = False

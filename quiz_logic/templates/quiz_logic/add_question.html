@@ -1,4 +1,6 @@
+{% load static %}
 <h2>Нове питання для "{{ quiz.title }}"</h2>
+<head> <link rel="stylesheet" href="{% static 'styles.css'%}"> </head>
 <form method="post">
     {% csrf_token %}
     {{ question_form.as_p }}

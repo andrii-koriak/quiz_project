@@ -1,5 +1,6 @@
+{% load static %}
 <h2>Обери аватар</h2>
-
+<head> <link rel="stylesheet" href="{% static 'styles.css'%}"> </head>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
